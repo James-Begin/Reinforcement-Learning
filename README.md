@@ -3,7 +3,7 @@ Reinforcement Learning is a significant subfield of Machine Learning and is well
 
 There are five key components in RL:  
 **Agent:** The entity that is learning and making decisions. In this case, the agent is the model deciding to make trades  
-**Environment: ** The context which the agent operates in. For us, this is the market made up of a select few equities.  
-**States: ** The conditions or positions the agent can be in. This can include the price of the shares, how many we own, and the amount of cash on hand.  
-**Actions: ** The possible decisions the agent can make. This is simply whether to buy, sell, or hold our shares based on the environment.
-**Rewards: ** The feedback the agent receives after performing an action. In our case, this is whether we take a profit or a loss when trading. 
+**Environment:** The context which the agent operates in. For us, this is the market made up of a select few equities.  
+**States:** The conditions or positions the agent can be in. This can include the price of the shares, how many we own, and the amount of cash on hand.  
+**Actions:** The possible decisions the agent can make. This is simply whether to buy, sell, or hold our shares based on the environment.
+**Rewards:** The feedback the agent receives after performing an action. In our case, this is whether we take a profit or a loss when trading. 
