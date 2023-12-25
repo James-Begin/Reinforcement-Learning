@@ -89,4 +89,152 @@ The experience replay is a place to store the agent's actions at each point in t
     def save(self, name):
         self.model.save_weights(name)
 ```
+## Environment
+In this case, the environment is the stock market (made up of only provided data) and is defined in the environment class:
+```
+class environment:
+    def __init__(self, prices):
+        self.data = prices
+        self.days, self.num_stocks = self.data.shape
 
+        #initialize needed vars
+        self.principal = 10000
+        self.owned = None
+        self.price = None
+        self.cash = None
+        self.day = None
+
+        #here we create a space for our actions, there are 3**3 permutations as there are 3 stocks and 3 actions (hold, sell, buy)
+        self.action_space = np.arange(3**self.num_stocks)
+
+
+        #create a map of the different actions:
+        #for example: [1,0,2] (buy, hold, sell)
+        self.actions = list(map(list, itertools.product([0,1,2], repeat=self.num_stocks)))
+
+        self.state_dimensions = self.num_stocks * 2 + 1
+
+        self.reset()
+```
+The environment is initialized with the stock pricing data, and all the necessary variables like owned stocks and amount of cash. Additionally, we also initialize the action space, which stores all possible actions based on the different stocks and actions. This action space is then used in our agent class. 
+```
+    def reset(self):
+        self.day = 0
+        self.owned = np.zeros(self.num_stocks)
+        self.price = self.data[self.day]
+        self.cash = self.principal
+
+        return self.get_state()
+
+    def step(self, action):
+        assert action in self.action_space
+
+        previous_value = self.get_value()
+
+        #increment and update price
+        self.price = self.data[self.day]
+        self.day += 1
+
+
+        self.trade(action)
+
+        current_value = self.get_value()
+
+        current_reward = current_value - previous_value
+
+        #if all data has been used, done flag
+        done = self.day = self.days - 1
+
+        track_value = {'current_value':current_value}
+
+        return self.get_state(), current_reward, done, track_value
+```
+Next, the reset function simply initializes our state and stock prices at time=0. The step function updates the time and prices of stocks, then undergoes and action provided by the agent. Then, it returns the new state and rewards.
+```
+
+    #return current portfolio value
+    def get_value(self):
+        sum = 0
+        for i in range(self.num_stocks):
+            sum += self.owned[i] + self.price[i]
+        return sum + self.cash
+
+    #here we set the state, which contains the stock owned, # of stocks, and cash in a list
+    def get_state(self):
+        action_store = np.empty(self.state_dimensions)
+        #we are only observing 3 equities, so these would create lists of 3
+        action_store[:self.num_stocks] = self.owned
+        action_store[self.num_stocks:2 * self.num_stocks] = self.price
+
+        action_store[-1] = self.cash
+
+        return action_store
+```
+The two get functions allow for easy access to total portfolio value and state.
+```
+    def trade(self, trade):
+        #first get the trades we want to perform
+        trades = self.actions[trade]
+
+        to_sell = []
+        to_buy = []
+
+        for stock, action in enumerate(trades):
+            #determine what kind of trades
+            if action == 0:
+                to_sell.append(stock)
+            elif action == 2:
+                to_buy.append(stock)
+
+
+        #sell first to ensure we have enough cash
+        if to_sell:
+            for stock in to_sell:
+
+                #sell all shares and add to cash
+                self.cash += self.price[stock] * self.owned[stock]
+                self.owned[stock] = 0
+        if to_buy:
+
+            #buy with an equal weighting
+            self.temp_cash = self.cash / len(to_buy)
+            for stock in to_buy:
+                if self.temp_cash > self.price[stock]:
+                    self.owned[stock] += (self.temp_cash // self.price[stock])
+                    self.cash -= self.owned[stock] * self.price[stock]
+```
+The trade function performs trades based on the provided actions from the agent. Overall, the function updates the holdings and ensures that there is enough capital to perform the required trades.
+## Experience Buffer
+The experience buffer is stored in the class with the same name and acts as a memory for past experiences:
+```
+class ExperienceBuffer:
+    #constructor that outlines the buffer
+    def __init__(self, states, actions, size):
+        self.action_buffer = np.zeros(size, dtype=np.uint8)
+        self.reward_buffer = np.zeros(size)
+        self.done_flag = np.zeros(size)
+        self.state_buffer = np.zeros([size, states])
+        self.next_state_buffer = np.zeros([size, states])
+        #store buffers at pointer index
+        self.pointer = 0
+        self.max_size = size
+        self.size = 0
+    #
+    def store(self, state, action, reward, next_state, done):
+        self.action_buffer[self.pointer] = action
+        self.state_buffer[self.pointer] = state
+        self.next_state_buffer[self.pointer] = next_state
+        self.reward_buffer[self.pointer] = reward
+        self.done_flag[self.pointer] = done
+        #once the entire buffer is full, start filling from the top again
+        self.pointer = (self.pointer + 1) % self.max_size
+        #check if buffer is full
+        self.size = min(self.size+1, self.max_size)
+
+    def sample(self, sample_size):
+        index = np.random.randint(0, self.size, size = sample_size)
+        return dict(s = self.state_buffer[index], s2 = self.next_state_buffer[index],
+                    a = self.action_buffer[index], r = self.reward_buffer[index],
+                    d = self.done_flag[index])
+```
+The buffer stores, actions, rewards, state, next state, and a done flag. First all buffers are initialized and are filled in the store function. Further, the buffer has a maximum size and once it's filled, will start to be overwritten from the top. This helps prevent learning from past experiences too many times. Finally, the sample function provides a random sample of experiences drawn from the buffer. In this case, the sample size is arbitrary and set to 32.
