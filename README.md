@@ -15,8 +15,8 @@ There are five key components in RL:
   
 ## Agent
 The agent is defined in the "Agent" class:
-`
-class Agent(object):
+
+`class Agent(object):
     #initialize needed values and hyperparameters (to be tweaked)
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -81,5 +81,5 @@ class Agent(object):
         self.model.load_weights(name)
 
     def save(self, name):
-        self.model.save_weights(name)
+        self.model.save_weights(name)`
 
