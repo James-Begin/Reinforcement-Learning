@@ -16,7 +16,8 @@ There are five key components in RL:
 ## Agent
 The agent is defined in the "Agent" class:
 
-`class Agent(object):
+```
+class Agent(object):
     #initialize needed values and hyperparameters (to be tweaked)
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -33,8 +34,9 @@ The agent is defined in the "Agent" class:
         self.explore_delta = 0.995
 
         self.model = form_model(state_size, action_size)
-
-    #choose an action to perform
+```
+Here we initialize needed values like the exploration rate and discount rate. These values help to determine how quickly and randomly our agent acts. In the agents class, we also define the action function: 
+```
     def action(self, state):
         #randomly perform an action (epsilon-greedy)
         if np.random.rand() < self.explore_rate:
@@ -42,7 +44,9 @@ The agent is defined in the "Agent" class:
         #perform a "greedy" action and return maximum reward
         action = self.model.predict(state)
         return np.argmax(action[0])
-
+```
+This simply chooses between a random action or a reward maximizing action based on the explore rate. Next is the replay and buffer:
+```
     def update_buffer(self, s, a, r, s2, d):
         self.experience_buffer.store(s,a,r,s2,d)
 
@@ -75,11 +79,14 @@ The agent is defined in the "Agent" class:
         #update exploration rate as it decreases over time
         if self.explore_rate > self.min_explore:
             self.explore_rate *= self.explore_delta
-
-    #instead of retraining the model every run, train once, then save and load weights when needed
+```
+The experience replay is a place to store the agent's actions at each point in time. This way, we can reuse previous experiences for training, helping to make the learning process more efficient. By sampling previous experiences, we can prevent the effects of correlated consecutive data, further helping to stabilize the learning process. At the end of the class, we define store and load functions to prevent having to retrain every time:
+```
+#instead of retraining the model every run, train once, then save and load weights when needed
     def load(self, name):
         self.model.load_weights(name)
 
     def save(self, name):
-        self.model.save_weights(name)`
+        self.model.save_weights(name)
+```
 
