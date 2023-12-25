@@ -21,7 +21,7 @@ import yfinance as yf
 def get_prices():
 
     #generate data
-    '''start = dt.datetime(2015, 1, 1)
+    start = dt.datetime(2015, 1, 1)
     end = dt.datetime(2020, 1, 1)
     SPY_data = yf.download('SPY', start, end)
     QQQ_data = yf.download('QQQ', start, end)
@@ -33,10 +33,9 @@ def get_prices():
     close_prices[1] = QQQ_data['Adj Close']
     close_prices[2] = Bond_data['Adj Close']
     close_prices.reset_index(drop=True, inplace=True)
-    '''
-    df = pd.read_csv('prices2.csv')
-    df.drop(columns=df.columns[0], axis=1, inplace=True)
-    return df.values
+    
+    
+    return close_prices.values
 
 class ExperienceBuffer:
     #constructor that outlines the buffer
@@ -87,7 +86,7 @@ def scaler(environment):
 
 #create a neural network used by agent
 def form_model(input_dimension, actions):
-    '''model = Sequential()
+    model = Sequential()
 
     model.add(Dense(32, input_dim = input_dimension, activation = 'relu'))
     model.add(Dense(actions))
@@ -103,27 +102,11 @@ def form_model(input_dimension, actions):
     x = Dense(actions)(x)
 
     model = Model(i, x)
-    model.compile(loss='mse', optimizer='adam')'''
-    i = Input(shape=(input_dimension,))
-    x = i
-
-    # hidden layers
-    for _ in range(1):
-        x = Dense(32, activation='relu')(x)
-
-    # final layer
-    x = Dense(actions)(x)
-
-    # make the model
-    model = Model(i, x)
-
     model.compile(loss='mse', optimizer='adam')
-
-
     
     return model
 
-#create environment of our chosen equities, this is where we copmlete our actions
+#create environment of our chosen equities, this is where we complete our actions
 class environment:
     def __init__(self, prices):
         self.data = prices
