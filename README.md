@@ -238,3 +238,9 @@ class ExperienceBuffer:
                     d = self.done_flag[index])
 ```
 The buffer stores, actions, rewards, state, next state, and a done flag. First all buffers are initialized and are filled in the store function. Further, the buffer has a maximum size and once it's filled, will start to be overwritten from the top. This helps prevent learning from past experiences too many times. Finally, the sample function provides a random sample of experiences drawn from the buffer. In this case, the sample size is arbitrary and set to 32.
+
+# Results
+![Rewardsplot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/03812c1b-216e-41c7-8dd0-62bdf3b7a671)  
+On average the model's average portfolio value was $20869.36 (108.7% return) with a minimum value of $15492.87 (54.9% return) and a maximum of $29895.43 (199.0% return).  
+![sp500plot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/08efd316-6ae3-4928-93b7-ba56a9f2a47d)  
+In comparison, the S&P500 return 72.9% and the NASDAQ100 returned 116.5% over the same 5 year period.
