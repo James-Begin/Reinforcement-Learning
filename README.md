@@ -243,4 +243,6 @@ The buffer stores, actions, rewards, state, next state, and a done flag. First a
 ![Rewardsplot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/03812c1b-216e-41c7-8dd0-62bdf3b7a671)  
 On average the model's average portfolio value was $20869.36 (108.7% return) with a minimum value of $15492.87 (54.9% return) and a maximum of $29895.43 (199.0% return).  
 ![sp500plot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/08efd316-6ae3-4928-93b7-ba56a9f2a47d)  
-In comparison, the S&P500 return 72.9% and the NASDAQ100 returned 116.5% over the same 5 year period.
+In comparison, the S&P500 return 72.9% and the NASDAQ100 returned 116.5% over the same 5 year period.  
+## More Difficult Scenarios 
+It is relatively simple to earn a profit when the markets 
