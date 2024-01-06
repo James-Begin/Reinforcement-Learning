@@ -244,5 +244,11 @@ The buffer stores, actions, rewards, state, next state, and a done flag. First a
 On average the model's average portfolio value was $20869.36 (108.7% return) with a minimum value of $15492.87 (54.9% return) and a maximum of $29895.43 (199.0% return).  
 ![sp500plot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/08efd316-6ae3-4928-93b7-ba56a9f2a47d)  
 In comparison, the S&P500 return 72.9% and the NASDAQ100 returned 116.5% over the same 5 year period.  
-## More Difficult Scenarios 
-It is relatively simple to earn a profit when the markets 
+## Scenario 2: Increased Volatility
+It is relatively simple to earn a profit when the markets consistently rise year over year. During the period of 2002 to 2012 the S&P 500 and NASDAQ 100 maintained an average annualized volatility of 21 to 24%, double their historical averages:  
+![spyqqq20022012](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/d7e4fafb-7aa4-4e77-ae65-dd46dd766b2d)  
+During this period, the S&P 500 returned 102.2% and the NASDAQ 100 returned 222.0%, significantly more than in the first example.  
+![rewardsplot2](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/fcf25cbf-1fe3-489d-a2bd-d0176572664b)  
+On average the model's average portfolio value was $18754.25 (84.5% return) with a minimum value of $8833.99 (-11.7% return) and a maximum of $30789.12 (207.9% return). During this period of increased volatility, its clear that the model vastly underperforms on average and even produces a loss in the worst case.  
+## Scenario 3: Negative Returns
+
