@@ -253,4 +253,6 @@ On average the model's average portfolio value was $18754.25 (84.5% return) with
 ## Scenario 3: Negative Returns
 This scenario provides both negative returns and high volatility during the period 2004 to 2009 including the 2008 financial crisis:  
 ![20042009plot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/96b0c2e2-1411-4409-b98c-2e946f126bd9)  
+![scenario3plot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/ebec2e8d-c60a-42f6-8606-239435c157fa)
+
 
