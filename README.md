@@ -251,4 +251,6 @@ During this period, the S&P 500 returned 102.2% and the NASDAQ 100 returned 222.
 ![rewardsplot2](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/fcf25cbf-1fe3-489d-a2bd-d0176572664b)  
 On average the model's average portfolio value was $18754.25 (84.5% return) with a minimum value of $8833.99 (-11.7% return) and a maximum of $30789.12 (207.9% return). During this period of increased volatility, its clear that the model vastly underperforms on average and even produces a loss in the worst case.  
 ## Scenario 3: Negative Returns
+This scenario provides both negative returns and high volatility during the period 2004 to 2009 including the 2008 financial crisis:  
+![20042009plot](https://github.com/James-Begin/Reinforcement-Learning/assets/103123677/96b0c2e2-1411-4409-b98c-2e946f126bd9)  
 
